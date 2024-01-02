@@ -41,6 +41,12 @@ const User = sequelize.define(
   }
 );
 
+User.asscoiate = (models) => {
+    User.hasMany(models.Friends, {
+        foreignKey: "userId",
+    })
+}
+
 // Synchronize the model with the database (creates the "Users" table if it doesn't exist)
 User.sync()
   .then(() => {
