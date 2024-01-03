@@ -28,7 +28,6 @@ const requestFriendship = async (req, res) => {
 
     return res.status(201).json({ msg: "You are friends", friendship });
   } catch (error) {
-    console.log("Error in controller", error);
     return res.status(500).json({ msg: "Failed creating friendship", error });
   }
 };
@@ -51,10 +50,25 @@ const acceptFriendship = async (req, res) => {
       .status(200)
       .json({ msg: "Friend request accepted successfully", friendship });
   } catch (error) {
-    console.error("Error in controller", error);
     return res
       .status(500)
       .json({ msg: "Failed accepting friend request", error: error.message });
+  }
+};
+
+const myFriends = async (req, res) => {
+  try {
+    const loggedInUser = req.user.id;
+    const friendList = await friendService.viewFriends(loggedInUser);
+    return res.status(201).json({
+      msg: "My Friends",
+      result: friendList,
+    });
+  } catch (error) {
+    return res.status(501).json({
+      msg: "Error returning friends",
+      result: error,
+    });
   }
 };
 
@@ -62,4 +76,5 @@ module.exports = {
   getUsers,
   requestFriendship,
   acceptFriendship,
+  myFriends,
 };

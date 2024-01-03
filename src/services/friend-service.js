@@ -1,6 +1,6 @@
 const Friend = require("../models/friend-model");
 const User = require("../models/user-model");
-const { Sequelize, where } = require("sequelize");
+const { Sequelize, where, Op } = require("sequelize");
 
 const viewUsers = async (loggedInUser) => {
   try {
@@ -63,8 +63,25 @@ const acceptFriendRequest = async (userId, friendId) => {
   }
 };
 
+const viewFriends = async (userId) => {
+  try {
+    const getFriends = await Friend.findAll({
+      where: {
+        [Op.or]: [
+          { userId: userId, status: 1 },
+          { friendId: userId, status: 1 },
+        ],
+      },
+    });
+    return getFriends;
+  } catch (error) {
+    throw new Error("Failed to retrieve friends");
+  }
+};
+
 module.exports = {
   viewUsers,
   sendFriendRequest,
   acceptFriendRequest,
+  viewFriends,
 };
