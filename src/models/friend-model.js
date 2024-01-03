@@ -9,6 +9,16 @@ const Friend = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    friendId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: false,
@@ -16,8 +26,9 @@ const Friend = sequelize.define(
 );
 
 Friend.associate = (models) => {
-    Friend.belongsTo(models.User, {foreignKey: "userId"})
-}
+  Friend.belongsTo(models.User, { foreignKey: "userId" });
+  Friend.belongsTo(models.User, { foreignKey: "friendId" });
+};
 
 // Synchronize the model with the database (creates the "Friend" table if it doesn't exist)
 Friend.sync()
