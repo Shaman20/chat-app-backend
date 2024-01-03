@@ -78,9 +78,18 @@ const logout = async (req, res) => {
     const userId = req.user.emailAddress;
     // Call a function from userService to handle the logout process
     await userService.logoutUser(userId);
-    res.status(200).json({ success: true, message: "Logged out successfully" });
+    res
+    .status(200)
+    .json({ 
+      success: true, 
+      message: "Logged out successfully" 
+    });
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
+    res.
+    status(400).
+    json({ 
+      success: false, 
+      message: error.message });
   }
 };
 

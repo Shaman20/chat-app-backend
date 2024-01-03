@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./db");
 
-
 const User = sequelize.define(
   "users",
   {
@@ -19,18 +18,18 @@ const User = sequelize.define(
       unique: true,
     },
     phoneNumber: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        unique: true
+      type: DataTypes.NUMBER,
+      allowNull: false,
+      unique: true,
     },
     age: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     isOnline: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -40,6 +39,15 @@ const User = sequelize.define(
     timestamps: false,
   }
 );
+
+User.associate = (models) => {
+  User.hasMany(models.Friends, {
+    foreignKey: "userId",
+  });
+  User.hasMany(models.Friends, {
+    foreignKey: "friendId",
+  });
+};
 
 // Synchronize the model with the database (creates the "Users" table if it doesn't exist)
 User.sync()
