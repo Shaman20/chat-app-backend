@@ -47,6 +47,12 @@ User.associate = (models) => {
   User.hasMany(models.Friends, {
     foreignKey: "friendId",
   });
+  User.hasMany(models.Message, {
+    foreignKey: "senderId",
+  })
+  User.hasMany(models.Message, {
+    foreignKey: "recieverId",
+  })
 };
 
 // Synchronize the model with the database (creates the "Users" table if it doesn't exist)
