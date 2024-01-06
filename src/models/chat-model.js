@@ -14,6 +14,10 @@ const Message = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
   },
   {
     timestamps: false,
