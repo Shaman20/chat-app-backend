@@ -12,13 +12,14 @@ const getMessages = async (req, res) => {
       });
     }
 
-    const msg = await chatService.viewMessage(userId, friendId);
+    const msg = await chatService.viewMessage(userId);
     console.log('My message',msg)
     return res.status(201).json({
       msg: "Your messages",
       result: msg,
     });
   } catch (error) {
+    console.log('View message', error)
     res.status(401).json({
       msg: "Error retireving messages",
       result: error

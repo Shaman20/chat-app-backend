@@ -1,19 +1,20 @@
 const Message = require("../models/chat-model");
+const sequelize = require("../models/db");
 const Friend = require("../models/friend-model");
-const { Sequelize } = require("sequelize");
+const { QueryTypes } = require("sequelize");
 
-const viewMessage = async (senderId, recieverId) => {
+const viewMessage = async (loggedInUser) => {
   try {
-    const message = await Message.findAll({
-      where: {
-        [Sequelize.Op.and]: [
-          { senderId: senderId },
-          { recieverId: recieverId }
-        ],
-      },
-    });
+    const message = await sequelize.query(
+      "SELECT content FROM `messages` WHERE senderId = :loggedInUser",
+      {
+        type: QueryTypes.SELECT,
+        replacements: { loggedInUser },
+      }
+    );
     return message;
   } catch (error) {
+    console.log("Error in message service", error);
     throw new Error("Error retrieving messages");
   }
 };
