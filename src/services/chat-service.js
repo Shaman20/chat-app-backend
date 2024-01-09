@@ -19,6 +19,21 @@ const viewMessage = async (loggedInUser) => {
   }
 };
 
+const sendMessage = async (senderId, recieverId, content) => {
+  try {
+    const send = await Message.create({
+      senderId: senderId,
+      recieverId: recieverId,
+      content: content,
+    });
+    return send;
+  } catch (err) {
+    console.log("Error in chat service", err);
+    throw err;
+  }
+};
+
 module.exports = {
   viewMessage,
+  sendMessage
 };

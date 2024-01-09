@@ -26,7 +26,7 @@ const Message = sequelize.define(
 
 Message.associate = (models) => {
   Message.belongsTo(models.User, { foreignKey: "senderId" });
-  Message.belongsTo(models.User, { foreignKey: "recieverId" });
+  Message.belongsTo(models.Friend, { foreignKey: "recieverId" });
 };
 
 // Synchronize the model with the database (creates the "Message" table if it doesn't exist)

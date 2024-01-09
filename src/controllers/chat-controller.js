@@ -13,20 +13,41 @@ const getMessages = async (req, res) => {
     }
 
     const msg = await chatService.viewMessage(userId);
-    console.log('My message',msg)
+    console.log("My message", msg);
     return res.status(201).json({
       msg: "Your messages",
       result: msg,
     });
   } catch (error) {
-    console.log('View message', error)
+    console.log("View message", error);
     res.status(401).json({
       msg: "Error retireving messages",
-      result: error
+      result: error,
+    });
+  }
+};
+
+const sendMessage = async (req, res) => {
+
+    const { recieverId, content } = req.body;
+
+    const userId = req.user.id;
+    try {
+    const send = await chatService.sendMessage(userId, recieverId, content);
+    res.status(201).json({
+      msg: "Message sent",
+      result: send,
+    });
+  } catch (error) {
+    console.log('Error in chat controller', error)
+    res.status(401).json({
+      msg: "Not delivered",
+      result: error,
     });
   }
 };
 
 module.exports = {
   getMessages,
+  sendMessage
 };
